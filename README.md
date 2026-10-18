@@ -6,6 +6,7 @@
 > a simplicity criterion, an LLM→perturbation→random fallback chain, and a 5-level OOM ladder.
 > Validated on a PCB defect-detection case study (mAP50 0.676 → 0.784).
 
+[![CI](https://github.com/1298346618-del/yolo-autotune/actions/workflows/ci.yml/badge.svg)](https://github.com/1298346618-del/yolo-autotune/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 [![Ultralytics](https://img.shields.io/badge/ultralytics-8.x-green.svg)](https://github.com/ultralytics/ultralytics)
@@ -280,7 +281,24 @@ Agent 用 git 做快照的思路来自 autoresearch，但它会执行 `git reset
 
 | 版本 | 修复 |
 |---|---|
-| v1.1 | `git_reset` 不再无条件 `reset --hard`，加三重校验；`time_budget_seconds` 单位修正（原先按分钟传给 ultralytics，应为小时，1800 秒会被当成 30 小时）；早停改为按"距上次刷新最佳"判定；TSV 坏行容错 |
+| v1.1 | `git_reset` 不再无条件 `reset --hard`，加三重校验；`time_budget_seconds` 单位修正（原先按分钟传给 ultralytics，应为小时，1800 秒会被当成 30 小时）；早停改为按"距上次刷新最佳"判定；TSV 坏行容错；新增测试与 CI |
+
+---
+
+## 开发与测试
+
+单元测试只覆盖**纯逻辑**，不导入 torch / ultralytics，因此几秒钟跑完，也不需要 GPU：
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q
+ruff check . --select E9,F63,F7,F82
+```
+
+覆盖范围：简化原则判定、早停逻辑、任务画像加载与回退、TSV 坏行容错、
+git 回滚护栏（含"绝不回滚用户提交"这条）、随机采样边界。
+
+CI 在 Python 3.10 / 3.12 上跑同一套检查，见 [.github/workflows/ci.yml](.github/workflows/ci.yml)。
 
 ---
 

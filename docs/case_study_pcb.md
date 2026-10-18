@@ -268,7 +268,7 @@ LLM 表现出清晰的搜索策略：先锁定方向（box↑ + 增强↓），�
 |---|---|---|
 | GPU 显存不足 | RTX 4060 8GB, batch=8 时 OOM | 5 级自动降级（4→2→2→1→1） |
 | LLM 被系统提示误导 | 持续调 imgsz(800→960→1024→1280) | 修改 prompt + 过滤非搜索空间参数 |
-| openai 库兼容性 | `__init__() got an unexpected key` | 替换为原生 requests 调用 |
+| openai 库版本冲突 | `__init__() got an unexpected key` | 当时绕过：改用原生 requests 调用；**当前代码已统一到 `openai>=1.0` 的 `OpenAI` 客户端**（见 `policy/llm.py`） |
 | 环境变量丢失 | 每次新终端 key 为空 | 文档强调同终端设 + 运行 |
 | 权重保存路径不匹配 | ultralytics 实际存 `runs/detect/` | 修正为 `runs/detect/project/name/` |
 | 清理函数误删源模型 | 源模型在 runs 目录会被清掉 | 复制到 `models/` 持久目录 |
@@ -316,7 +316,7 @@ LLM 表现出清晰的搜索策略：先锁定方向（box↑ + 增强↓），�
 | Python | 3.8.5 |
 | PyTorch | 2.0.1+cu118 |
 | Ultralytics | 8.4.9 |
-| LLM API | DeepSeek-Chat via requests |
+| LLM API | DeepSeek-Chat（当轮实验走原生 requests；现行代码用 `openai>=1.0` 客户端） |
 
 ### C. 数据集结构
 

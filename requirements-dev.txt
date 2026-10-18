@@ -1,0 +1,4 @@
+# 只跑单元测试需要的依赖（不需要 torch / ultralytics）
+pytest>=7.0
+pyyaml>=6.0
+ruff>=0.4
