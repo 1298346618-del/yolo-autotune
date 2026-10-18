@@ -182,7 +182,7 @@ class AgentKernel:
         if not result.success:
             print(f"[错误] 训练失败: {result.error or '未知错误'}")
             self._rollback_config()
-            git_reset(self.use_git)
+            git_reset(self.use_git, self._expected_commit())
             return "crash"
 
         # 训练成功
@@ -215,8 +215,14 @@ class AgentKernel:
             return "keep"
         else:
             self._rollback_config()
-            git_reset(self.use_git)
+            git_reset(self.use_git, self._expected_commit())
             return "discard"
+
+    def _expected_commit(self) -> str:
+        """当前应当回滚到的 Agent 快照 hash（用于防止误删用户提交）。"""
+        if self.best_experiment and self.best_experiment.get("commit"):
+            return self.best_experiment["commit"]
+        return ""
 
     def _keep_result(
         self,

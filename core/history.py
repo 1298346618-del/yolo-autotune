@@ -33,19 +33,36 @@ def log_tsv(commit: str, map50: float, map50_95: float, status: str, description
 
 
 def load_tsv_history() -> List[Dict[str, Any]]:
-    """从 TSV 加载历史记录"""
+    """从 TSV 加载历史记录。
+
+    容错：手工编辑或中断写坏的行会被跳过并给出提示，
+    而不是让整个 Agent 在启动时崩掉。
+    """
     history = []
     import os
     if not os.path.exists(TSV_PATH):
         return history
+
+    def _f(v, default=0.0):
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            return default
+
     with open(TSV_PATH, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
-        for row in reader:
+        for lineno, row in enumerate(reader, start=2):
+            raw = row.get("map50")
+            try:
+                map50 = float(raw) if raw not in (None, "") else 0.0
+            except (TypeError, ValueError):
+                print(f"[历史] 跳过第 {lineno} 行：map50 无法解析 ({raw!r})")
+                continue
             history.append({
-                "commit": row.get("commit", ""),
-                "map50": float(row.get("map50", 0)),
-                "map50_95": float(row.get("map50_95", 0)),
-                "status": row.get("status", ""),
-                "description": row.get("description", ""),
+                "commit": row.get("commit", "") or "",
+                "map50": map50,
+                "map50_95": _f(row.get("map50_95")),
+                "status": row.get("status", "") or "",
+                "description": row.get("description", "") or "",
             })
     return history

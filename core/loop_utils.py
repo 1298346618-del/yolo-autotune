@@ -51,20 +51,25 @@ def apply_simplicity_criterion(
 
 
 def should_continue(tsv_history: List[Dict], patience: int) -> bool:
-    """早停逻辑：连续 patience 轮无提升则停止"""
-    if len(tsv_history) < patience:
+    """早停：连续 `patience` 轮没有刷新历史最佳就停止。
+
+    旧实现只看 status=keep 的记录，而"持平"也会被记成 keep，导致
+    早停几乎不会触发。这里改为扫描完整历史，统计"距上次刷新最佳过了多少轮"。
+    """
+    if patience <= 0 or len(tsv_history) < patience:
         return True
 
-    # 只看 status=keep 的实验
-    kept = [h for h in tsv_history if h.get("status") == "keep"]
-    if len(kept) < patience:
-        return True
+    best = float("-inf")
+    rounds_since_best = 0
+    for h in tsv_history:
+        score = h.get("map50", 0.0)
+        if score > best + 1e-9:
+            best = score
+            rounds_since_best = 0
+        else:
+            rounds_since_best += 1
 
-    recent = kept[-patience:]
-    recent_best = max(h["map50"] for h in recent)
-    earlier_best = max((h["map50"] for h in kept[:-patience]), default=0)
-
-    return recent_best > earlier_best
+    return rounds_since_best < patience
 
 
 def cleanup_old_runs(project: str = "yolo_autotune_runs", keep: int = 5):
