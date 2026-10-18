@@ -1,0 +1,16 @@
+# PyTorch：请先按你的 CUDA 版本安装，例如
+#   pip install torch --index-url https://download.pytorch.org/whl/cu118
+#   CPU 用户：pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.0.0
+
+# 训练与评估
+ultralytics>=8.0.0
+
+# LLM 调用（OpenAI 兼容接口）
+openai>=1.0.0
+
+# 配置读写
+pyyaml>=6.0
+
+# 可选：从 .env 读取密钥（不想用的话直接用系统环境变量即可）
+python-dotenv>=1.0.0

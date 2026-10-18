@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ---- 训练产物（不进仓库）----
+runs/
+yolo_autotune_best/
+*.pt
+*.onnx
+*.engine
+
+# 单次实验的临时配置与历史（root 下的生成物；实验记录请放 experiments/）
+/yolo_autotune_config.yaml
+/yolo_experiment_history.json
+/results.tsv
+
+# ---- 密钥 ----
+.env
+
+# ---- 数据集 ----
+# 数据集不随仓库分发；用 data.yaml 指向本地路径
+datasets/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

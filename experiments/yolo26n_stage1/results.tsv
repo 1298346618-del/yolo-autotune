@@ -1,0 +1,18 @@
+commit	map50	map50_95	status	description
+	0.746498	0.508208	keep	随机搜索
+	0.731666	0.488786	discard	随机搜索（LLM 失败: __init__() got an unexpected k）
+	0.688057	0.455359	discard	增大lr0至0.015，box至12.0，保持中等增强
+	0.695699	0.474093	discard	增大 imgsz 至 640，box 至 12.0，降低 mosaic 至 0.5，保持 lr0=0.01
+	0.735290	0.498619	discard	增大imgsz至800，box=10.0，降低mosaic和mixup，保持lr0=0.01
+	0.690295	0.492878	discard	imgsz=800, box=12.0, 降低增强, lr0=0.01
+	0.690849	0.473799	discard	imgsz=960, box=10.0, 中等增强, lr0=0.01
+	0.698889	0.499967	discard	imgsz=800, box=10.0, lr0=0.012, 降低mosaic至0.3和mixup至0.05
+	0.725447	0.497895	discard	imgsz=960, box=11.0, lr0=0.015, 降低mosaic至0.2和mixup至0.02
+	0.716178	0.476096	discard	imgsz=1024, box=12.0, lr0=0.012, 低增强
+	0.712680	0.477287	discard	imgsz=1024, lr0=0.018, box=13.0, 低增强
+	0.730370	0.477930	discard	imgsz=960, box=12.0, lr0=0.015, 极低增强(mosaic=0.1, mixup=0.01)
+	0.709647	0.501953	discard	imgsz=960, lr0=0.018, box=12.0, 极低增强(mosaic=0.05, mixup=0.01)
+	0.715987	0.497114	discard	imgsz=960, box=13.0, lr0=0.015, 极低增强(mosaic=0.1, mixup=0.01)
+	0.711508	0.481095	discard	imgsz=960, box=13.5, lr0=0.012, 极低增强(mosaic=0.1, mixup=0.01)
+	0.700483	0.488997	discard	imgsz=960, box=12.5, lr0=0.012, 极低增强(mosaic=0.1, mixup=0.01)
+	0.730370	0.477930	discard	imgsz=1280, box=12.0, lr0=0.015, 极低增强(mosaic=0.1, mixup=0.01)

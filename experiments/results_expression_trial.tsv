@@ -1,0 +1,13 @@
+commit	map50	map50_95	status	description
+iter0	0.978252	0.704898	keep	稳健防过拟合基线：lr0=0.01, wd=0.001, erasing=0.05
+iter1	0.899404	0.639922	discard	关闭 erasing，提高 cls 至 1.0，微调 lr0 至 0.008，强化分类并保留特征。
+iter2	0.939678	0.657808	discard	保持 erasing=0.05，box 提至 12.0，lrf 升至 0.1，测试定位与后期学习率影响。
+iter3	0.973734	0.655470	discard	dropout升至0.15，mosaic/mixup减半，强化正则化防过拟合
+iter4	0.973734	0.655470	discard	降低 mosaic/mixup，关闭 erasing，简化增强并保留表情特征
+iter5	0.949544	0.671876	discard	box降至8.0，cls升至0.8，保持erasing=0.05，强化分类并控制定位过拟合
+iter6	0.976978	0.720476	discard	关闭 erasing/mixup，mosaic 降至 0.1，dropout=0.15，cls 提至 0.8，简化增强并强化分类正则化。
+iter7	0.966654	0.672550	discard	基于最佳微调（LLM 失败: LLM 输出不是有效的 YAML 字典）
+iter8	0.966654	0.672550	discard	基于最佳微调（LLM 失败: LLM 输出不是有效的 YAML 字典）
+iter9	0.925002	0.648450	discard	降低lr0至0.005并关闭mixup，mosaic降至0.2，dropout提至0.15，强化正则化稳定性。
+iter10	0.967566	0.654342	discard	关闭 erasing/mixup，mosaic 降至 0.1，cls 提至 0.8，简化增强并强化分类。
+iter11	0.944314	0.685170	discard	提高 box 至 11.0、cls 至 0.8 并增 dropout 至 0.15，强化定位与分类正则化。

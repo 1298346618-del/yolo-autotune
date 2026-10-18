@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO Auto-Tune Demo - PCB Defect Detection</title>
+<style>
+body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background: #1a1a2e; color: #eee; }
+h1 { text-align: center; color: #e94560; margin-bottom: 5px; }
+.subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+.container { max-width: 1400px; margin: 0 auto; }
+.compare-card { background: #16213e; border-radius: 12px; padding: 16px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.compare-card h3 { margin: 0 0 12px 0; color: #0f3460; background: #e94560; display: inline-block; padding: 4px 16px; border-radius: 20px; }
+.compare-card img { width: 100%; border-radius: 8px; }
+.stats { background: #16213e; border-radius: 12px; padding: 20px; margin: 30px 0; }
+.stats h2 { color: #e94560; margin-top: 0; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px 12px; text-align: center; border-bottom: 1px solid #333; }
+th { background: #0f3460; color: #fff; }
+.green { color: #4ecca3; font-weight: bold; }
+.footer { text-align: center; color: #666; margin-top: 40px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>YOLO Auto-Tune Agent</h1>
+<p class="subtitle">LLM-driven Hyperparameter Optimization for PCB Defect Detection</p>
+
+<div class="stats">
+<h2>Performance Comparison</h2>
+<table>
+<tr><th>Metric</th><th>Original (best.pt)</th><th>LLM Tuned (best_iter29)</th><th>Improvement</th></tr>
+<tr><td>mAP50</td><td>0.676</td><td class="green">0.784</td><td class="green">+16.0%</td></tr>
+<tr><td>mAP50-95</td><td>0.424</td><td class="green">0.556</td><td class="green">+31.1%</td></tr>
+<tr><td>Precision</td><td>0.670</td><td class="green">0.770</td><td class="green">+14.9%</td></tr>
+<tr><td>Recall</td><td>0.663</td><td class="green">0.728</td><td class="green">+9.8%</td></tr>
+</table>
+<br>
+<h2>Per-Class mAP50</h2>
+<table>
+<tr><th>Defect Type</th><th>Original</th><th>LLM Tuned</th><th>Change</th></tr>
+<tr><td>Open (开路)</td><td>0.759</td><td class="green">0.827</td><td class="green">+0.068</td></tr>
+<tr><td>Short (短路)</td><td>0.558</td><td class="green">0.723</td><td class="green">+0.165</td></tr>
+<tr><td>Mousebite (缺口)</td><td>0.712</td><td class="green">0.861</td><td class="green">+0.149</td></tr>
+<tr><td>Spur (毛刺)</td><td>0.641</td><td class="green">0.762</td><td class="green">+0.121</td></tr>
+<tr><td>Pinhole (针孔)</td><td>0.515</td><td class="green">0.609</td><td class="green">+0.094</td></tr>
+<tr><td>Spurious Cu (伪铜)</td><td>0.871</td><td class="green">0.920</td><td class="green">+0.049</td></tr>
+</table>
+</div>
+
+<div class="compare-card">
+<h3>pcb_00407.jpg</h3>
+<img src="compare/pcb_00407_compare.jpg" alt="pcb_00407">
+</div>
+<div class="compare-card">
+<h3>pcb_00426.jpg</h3>
+<img src="compare/pcb_00426_compare.jpg" alt="pcb_00426">
+</div>
+<div class="compare-card">
+<h3>pcb_00435.jpg</h3>
+<img src="compare/pcb_00435_compare.jpg" alt="pcb_00435">
+</div>
+<div class="compare-card">
+<h3>pcb_00418.jpg</h3>
+<img src="compare/pcb_00418_compare.jpg" alt="pcb_00418">
+</div>
+<div class="compare-card">
+<h3>pcb_00423.jpg</h3>
+<img src="compare/pcb_00423_compare.jpg" alt="pcb_00423">
+</div>
+<div class="compare-card">
+<h3>pcb_00410.jpg</h3>
+<img src="compare/pcb_00410_compare.jpg" alt="pcb_00410">
+</div>
+<div class="stats">
+<h2>Optimal Hyperparameters Found by LLM Agent</h2>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Parameter</th><th>Value</th></tr>
+<tr><td>lr0</td><td>0.008</td><td>box</td><td style="color:#e94560">15.0 (max)</td></tr>
+<tr><td>lrf</td><td>0.008</td><td>mosaic</td><td style="color:#4ecca3">0.1 (low)</td></tr>
+<tr><td>momentum</td><td>0.937</td><td>mixup</td><td style="color:#4ecca3">0.04 (low)</td></tr>
+<tr><td>weight_decay</td><td>0.0005</td><td>copy_paste</td><td>0.1</td></tr>
+<tr><td>dropout</td><td>0.05</td><td>degrees</td><td>2.0</td></tr>
+</table>
+<p style="color:#888;margin-top:16px;">LLM discovery: maximize box loss weight + minimize strong augmentations → best for PCB small-defect detection</p>
+</div>
+
+<p class="footer">YOLO Auto-Tune Agent | LLM (DeepSeek) + Ultralytics YOLOv8n | PCB Defect Detection</p>
+</div>
+</body>
+</html>

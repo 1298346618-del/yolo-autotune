@@ -1,0 +1,11 @@
+commit	map50	map50_95	status	description
+	0.872006	0.529840	keep	平衡基线，box=10.0、cls=0.7，增强强度适中，重点验证 lr0=0.01 与损失权重设置。 [OOM恢复 batch=16]
+	0.838863	0.609873	discard	增大 box 至 12.0，lr0 调至 0.015，降低 mosaic 至 0.3 [OOM恢复 batch=16]
+	0.655016	0.479215	discard	随机搜索（LLM 失败: LLM 输出不是有效的 YAML 字典） [OOM恢复 batch=16]
+	0.758203	0.542726	discard	保持 lr0=0.01，增大 cls 至 0.85，warmup_epochs 增至 3.5，验证分类权重提升效果。 [OOM恢复 batch=16]
+	0.785056	0.580786	discard	保持lr0=0.01，轻微降低cls至0.6，去除mixup/copy_paste并微降mosaic，验证简化增强效果。 [OOM恢复 batch=16]
+	0.655016	0.479215	discard	随机搜索（LLM 失败: float() argument must be a str） [OOM恢复 batch=16]
+	0.764452	0.506851	discard	增大 box 至 12.0，lr0 降至 0.008，其余与最佳配置一致 [OOM恢复 batch=16]
+	0.867870	0.606010	discard	保持增强与box不变，lr0微调至0.012，cls增至0.8，mixup降至0.05，测试分类权重与学习率协同效果 [OOM恢复 batch=16]
+	0.655016	0.479215	discard	随机搜索（LLM 失败: float() argument must be a str） [OOM恢复 batch=16]
+	0.867589	0.630702	discard	LLM 生成 [OOM恢复 batch=16]
