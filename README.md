@@ -166,9 +166,30 @@ python main.py
 
 ### 5. 监控
 
+开一个终端把输出同时写进日志：
+
 ```bash
-python -c "import pandas as pd; print(pd.read_csv('results.tsv', sep='\t'))"
+python main.py 2>&1 | tee tune_log.txt          # bash
+python main.py *>&1 | Tee-Object tune_log.txt   # PowerShell 7+
 ```
+
+再开一个终端看仪表盘（轮次/epoch 进度、最近日志、TSV 表格、当前最佳）：
+
+```bash
+python monitor.py
+```
+
+### 6. 对比调优前后
+
+```bash
+python tools/compare_models.py \
+    --data data.yaml \
+    --original path/to/baseline.pt \
+    --tuned results/best.pt
+```
+
+会打印 mAP50 / mAP50-95 / P / R 的差值表，以及逐类 mAP50——就是
+[docs/case_study_pcb.md](docs/case_study_pcb.md) 里那张对比表的来源。
 
 ---
 
@@ -191,6 +212,7 @@ python -c "import pandas as pd; print(pd.read_csv('results.tsv', sep='\t'))"
 ```
 yolo-autotune/
 ├── main.py                 入口
+├── monitor.py              训练监控仪表盘
 ├── program.md              Agent 行为准则（人类编辑）
 ├── config/
 │   ├── settings.py         搜索空间、预算、LLM 配置
@@ -198,6 +220,8 @@ yolo-autotune/
 ├── core/                   Agent 内核、历史、回滚、简化原则
 ├── policy/                 LLM 策略 / 随机策略
 ├── env/                    ultralytics 训练封装
+├── tools/
+│   └── compare_models.py   对比调优前后两个权重
 ├── experiments/            真实实验记录（TSV）
 ├── docs/
 │   ├── case_study_pcb.md   PCB 案例完整分析
